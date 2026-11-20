@@ -42,15 +42,15 @@ printf '%s\n%s\n' "${WIFI}" "${BRIDGED_TAP}" > "${NM_ACTIVE}"
 
 # OpenVPN tun device next to libvirt guests
 printf '%s\n%s\n%s\n' "${WIFI}" "${LIBVIRT}" 'tun0:9a1d4c55-1111-4222-8333-444455556666:tun:tun0' > "${NM_ACTIVE}"
-"${SCRIPT_DIR}/../scripts/nm-vpn" | head -n 1 | grep -q '>tun0</span>$'
+"${SCRIPT_DIR}/../scripts/nm-vpn" | sed -n 1p | grep -q '>tun0</span>$'
 
 # WireGuard connection next to libvirt guests
 printf '%s\n%s\n%s\n' "${WIFI}" "${LIBVIRT}" 'Office WG:3c5e7a90-2222-4333-8444-555566667777:wireguard:wg0' > "${NM_ACTIVE}"
-"${SCRIPT_DIR}/../scripts/nm-vpn" | head -n 1 | grep -q '>Office WG</span>$'
+"${SCRIPT_DIR}/../scripts/nm-vpn" | sed -n 1p | grep -q '>Office WG</span>$'
 
 # A NetworkManager VPN connection is preferred over its tun device
 printf '%s\n%s\n%s\n%s\n' "${WIFI}" "${LIBVIRT}" 'Work VPN:5b6c7d8e-3333-4444-8555-666677778888:vpn:wlp59s0' 'tun0:9a1d4c55-1111-4222-8333-444455556666:tun:tun0' > "${NM_ACTIVE}"
-"${SCRIPT_DIR}/../scripts/nm-vpn" | head -n 1 | grep -q '>Work VPN</span>$'
+"${SCRIPT_DIR}/../scripts/nm-vpn" | sed -n 1p | grep -q '>Work VPN</span>$'
 
 # No VPN at all
 printf '%s\n' "${WIFI}" > "${NM_ACTIVE}"
